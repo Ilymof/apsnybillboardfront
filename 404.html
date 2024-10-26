@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      // Проверяем, не на корневой ли мы странице
+      if (window.location.pathname !== '/') {
+        // Перенаправляем на index.html с сохранением маршрута
+        window.location.replace('/?' + window.location.pathname);
+      } else {
+        // Перенаправление на нужный маршрут при повторной загрузке
+        const path = window.location.search.substring(1);
+        if (path) {
+          history.replaceState(null, '', path);
+        }
+      }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
