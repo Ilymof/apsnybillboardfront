@@ -191,33 +191,40 @@
     }
 }
 
-// Загрузка списка подкатегорий для выбранной категории
 async function populateSubcategoryList(categoryId) {
-    const subcategorySelect = document.getElementById('subcategoryId');
-    subcategorySelect.innerHTML = '<option value="">Выберите подкатегорию</option>';
+  try {
+    const response = await fetch(`https://apsnybillboard-production.up.railway.app/api/category/${categoryId}`);
+    
+    if (response.ok) {
+      const categoryData = await response.json();
+      const subcategorySelect = document.getElementById('subcategoryId');
+      subcategorySelect.innerHTML = '<option value="">Выберите подкатегорию</option>';
 
-    if (!categoryId) return;
-
-    try {
-        const response = await fetch(`https://apsnybillboard-production.up.railway.app/api/category/${categoryId}`);
-        
-        if (response.ok) {
-            const category = await response.json();
-            if (category.subcategories) {
-                category.subcategories.forEach(subcategory => {
-                    const option = document.createElement('option');
-                    option.value = subcategory.id; // Assuming `subcategory.id` exists in the response
-                    option.textContent = subcategory.subcategoryName;
-                    subcategorySelect.appendChild(option);
-                });
-            }
-        } else {
-            console.error('Failed to load subcategories:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Ошибка при загрузке подкатегорий:', error);
+      // Populate the dropdown with the received subcategories
+      categoryData.subcategories.forEach(subcategory => {
+        const option = document.createElement('option');
+        option.value = subcategory.id; // Assuming `id` is the correct identifier
+        option.textContent = subcategory.subcategoryName;
+        subcategorySelect.appendChild(option);
+      });
+    } else {
+      console.error('Failed to load subcategories:', response.statusText);
+      alert("Не удалось загрузить подкатегории");
     }
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+  }
 }
+
+// Add event listener to the category dropdown
+document.getElementById('categoryId').addEventListener('change', function() {
+  const categoryId = this.value;
+  if (categoryId) {
+    populateSubcategoryList(categoryId);  // Load subcategories based on selected category
+  } else {
+    document.getElementById('subcategoryId').innerHTML = '<option value="">Выберите подкатегорию</option>';
+  }
+});
     </script>
 </body>
 </html>
