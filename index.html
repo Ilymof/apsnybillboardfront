@@ -26,9 +26,8 @@
     <!-- Страница создания объявления -->
     <div id="adCreatePage" style="display: none;">
         <h1>Создание объявления</h1>
-        <button onclick="logout()">Выйти</button> <!-- Кнопка выхода -->
         <form id="adForm" enctype="multipart/form-data">
-            <!-- Все поля формы создания объявления, как в предыдущем коде -->
+            <!-- Все поля формы создания объявления -->
             <label for="adName">Название объявления:</label>
             <input type="text" id="adName" name="adName" required><br><br>
 
@@ -64,6 +63,11 @@
         <p id="adMessage"></p>
     </div>
 
+    <!-- Кнопка выхода внизу страницы -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="logout()">Выйти</button>
+    </div>
+
     <script>
         window.onload = async function() {
             const token = localStorage.getItem('token');
@@ -91,6 +95,7 @@
         function logout() {
             localStorage.removeItem('token');
             showLoginPage();
+            document.getElementById('loginMessage').textContent = "Вы вышли из аккаунта.";
         }
 
         // Функция для обработки формы логина
