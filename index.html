@@ -122,8 +122,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 // Обработчик отправки формы объявления
 document.getElementById('adForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-
+    console.log(this)
     const formData = new FormData(this);
+    console.log(formData)
     const token = localStorage.getItem('token');
 
     try {
